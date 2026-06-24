@@ -56,13 +56,54 @@ python main.py join --invite https://discord.gg/abc123 --tokens "MTI..." "OTk...
 
 ## iPhone Web-UI
 
-1. Auf deinem PC / Server starten:
-   ```bash
-   python server.py
-   ```
-2. Lokale IP rausfinden (z.B. `192.168.1.42`).
-3. Auf dem iPhone **Safari öffnen** → `http://192.168.1.42:8000`
-4. (Optional) "Zum Home-Bildschirm hinzufügen" — läuft dann wie eine App.
+Starte den Server auf deinem PC/Server — er druckt direkt die URL, einen
+**QR-Code zum Scannen mit der iPhone-Kamera**, und kann optional einen
+public HTTPS-Tunnel öffnen.
+
+### Option 1 — Gleiches WLAN (am einfachsten)
+
+```bash
+python server.py
+```
+Der Output sieht so aus:
+```
+=========================================================
+  AccGen running on  →  http://192.168.1.42:8000
+=========================================================
+  same WiFi as your iPhone? scan this QR with the camera:
+
+  █▀▀▀▀▀█ ▄▀█▄█ █▀▀▀▀▀█
+  █ ███ █ ██▀▀▄ █ ███ █
+  …
+```
+**iPhone-Kamera → QR scannen → Safari öffnet die UI** → "Zum Home-Bildschirm
+hinzufügen" → läuft wie eine native App.
+
+### Option 2 — Cloudflare Tunnel (überall, nicht nur WLAN, kein Login)
+
+```bash
+# einmalig cloudflared installieren:
+# macOS:    brew install cloudflared
+# Windows:  winget install Cloudflare.cloudflared
+# Linux:    siehe https://pkg.cloudflare.com/
+
+python server.py --tunnel cloudflare
+```
+Cloudflare gibt dir eine kostenlose, zufällige `https://*.trycloudflare.com` URL
+plus QR-Code. Funktioniert von überall (4G/5G, anderes WLAN, Cafe). Kein Account
+nötig.
+
+### Option 3 — ngrok (alternative)
+
+```bash
+python server.py --tunnel ngrok --ngrok-token DEIN_TOKEN
+```
+Braucht kostenlosen Account auf ngrok.com → dashboard → authtoken kopieren.
+
+> **⚠ Sicherheit bei Tunneln**: Sobald deine UI public ist (Option 2/3),
+> setze unbedingt `server.auth_token` in der `config.json`. Sonst kann jeder
+> der die URL errät dein Tool benutzen. Im UI-Tab "Config" → Server Token
+> denselben Wert eingeben.
 
 Die UI hat 4 Tabs:
 - **Generate** — Plattform wählen, Menge eingeben, klick.

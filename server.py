@@ -234,12 +234,38 @@ async def join_invite(req: JoinReq, x_auth_token: Optional[str] = Header(default
 if __name__ == "__main__":
     import uvicorn
 
+    from src.netlink import lan_ip, print_qr, start_cloudflare_tunnel, start_ngrok_tunnel
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", default=cfg.get("server", {}).get("host", "0.0.0.0"))
     parser.add_argument("--port", type=int, default=cfg.get("server", {}).get("port", 8000))
+    parser.add_argument(
+        "--tunnel",
+        choices=["none", "cloudflare", "ngrok"],
+        default="none",
+        help="public https URL via cloudflared (no signup) or ngrok",
+    )
+    parser.add_argument("--ngrok-token", default=None, help="ngrok authtoken if using --tunnel ngrok")
     args = parser.parse_args()
 
+    ip = lan_ip()
+    lan_url = f"http://{ip}:{args.port}"
+
+    print("\n" + "=" * 60)
+    print(f"  AccGen running on  →  {lan_url}")
+    print("=" * 60)
+    print("  same WiFi as your iPhone? scan this QR with the camera:")
+    print()
+    print_qr(lan_url)
+
     if not AUTH_TOKEN:
-        print("WARNING: no server.auth_token set — anyone on your network can hit the API")
-    print(f"→ open http://<your-ip>:{args.port} from your iPhone Safari")
+        print("  ⚠ no server.auth_token set — anyone on your network can hit the API")
+
+    if args.tunnel == "cloudflare":
+        print("  starting cloudflare tunnel… (free, no signup)")
+        start_cloudflare_tunnel(args.port)
+    elif args.tunnel == "ngrok":
+        print("  starting ngrok tunnel…")
+        start_ngrok_tunnel(args.port, args.ngrok_token)
+
     uvicorn.run(app, host=args.host, port=args.port, log_level="info")
