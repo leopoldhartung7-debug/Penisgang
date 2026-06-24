@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0b0d12" />
+  <title>AccGen</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>Acc<span>Gen</span></h1>
+    <div class="meta">
+      <span id="status-dot" class="dot off"></span>
+      <span id="status-text">offline</span>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="gen" class="tab active">Generate</button>
+    <button data-tab="check" class="tab">Check</button>
+    <button data-tab="join" class="tab">Join</button>
+    <button data-tab="cfg" class="tab">Config</button>
+  </nav>
+
+  <main>
+    <section data-pane="gen" class="pane active">
+      <div class="card">
+        <h2>Plattform</h2>
+        <div class="platforms" id="platforms"></div>
+      </div>
+      <div class="card">
+        <label class="row">
+          <span>Menge</span>
+          <input id="amount" type="number" inputmode="numeric" min="1" max="500" value="1" />
+        </label>
+        <button id="generate-btn" class="primary big">Generieren</button>
+      </div>
+    </section>
+
+    <section data-pane="check" class="pane">
+      <div class="card">
+        <h2>Token Checker</h2>
+        <textarea id="check-tokens" rows="6" placeholder="Ein Token pro Zeile"></textarea>
+        <button id="check-btn" class="primary big">Tokens prüfen</button>
+      </div>
+    </section>
+
+    <section data-pane="join" class="pane">
+      <div class="card">
+        <h2>Mass Joiner</h2>
+        <label class="row"><span>Invite Code</span><input id="join-invite" placeholder="z.B. abc123" /></label>
+        <label class="row"><span>Delay (ms)</span><input id="join-delay" type="number" inputmode="numeric" value="800" /></label>
+        <textarea id="join-tokens" rows="6" placeholder="Ein Token pro Zeile"></textarea>
+        <button id="join-btn" class="primary big">Joinen</button>
+      </div>
+    </section>
+
+    <section data-pane="cfg" class="pane">
+      <div class="card">
+        <h2>Discord Webhook</h2>
+        <label class="row col">
+          <span>Webhook URL</span>
+          <input id="wh-url" placeholder="https://discord.com/api/webhooks/…" />
+        </label>
+        <label class="row">
+          <span>Aktiv</span>
+          <input id="wh-enabled" type="checkbox" />
+        </label>
+        <button id="wh-save" class="primary">Webhook speichern</button>
+      </div>
+      <div class="card">
+        <h2>Auth</h2>
+        <label class="row col">
+          <span>Server Token (falls gesetzt)</span>
+          <input id="auth-token" placeholder="X-Auth-Token" />
+        </label>
+        <button id="auth-save" class="ghost">Lokal speichern</button>
+      </div>
+    </section>
+  </main>
+
+  <section class="log card">
+    <div class="log-head">
+      <h2>Live Log</h2>
+      <button id="log-clear" class="ghost small">leeren</button>
+    </div>
+    <div id="log"></div>
+  </section>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
