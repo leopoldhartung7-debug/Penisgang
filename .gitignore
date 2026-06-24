@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+env/
+
+config.json
+proxies.txt
+output/
+*.log
+.env
+
+.idea/
+.vscode/
+.DS_Store

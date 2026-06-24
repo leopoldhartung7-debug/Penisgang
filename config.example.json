@@ -1,0 +1,25 @@
+{
+  "captcha": {
+    "provider": "2captcha",
+    "api_key": "YOUR_2CAPTCHA_API_KEY",
+    "timeout": 180
+  },
+  "mail": {
+    "provider": "mail_tm",
+    "imap_host": "",
+    "imap_user": "",
+    "imap_pass": "",
+    "catchall_domain": ""
+  },
+  "proxies": {
+    "file": "proxies.txt",
+    "rotate_per_account": true,
+    "scheme": "http"
+  },
+  "output": {
+    "directory": "output",
+    "format": "user:pass:token"
+  },
+  "threads": 5,
+  "verbose": true
+}

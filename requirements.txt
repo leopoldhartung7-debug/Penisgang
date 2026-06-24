@@ -1,0 +1,7 @@
+httpx[http2]==0.27.2
+tls-client==1.0.1
+playwright==1.47.0
+colorama==0.4.6
+faker==30.3.0
+pyyaml==6.0.2
+beautifulsoup4==4.12.3
